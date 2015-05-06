@@ -18,3 +18,4 @@
 # limitations under the License.
 #
 default['nsclient']['nsclientpath'] = 'C:\\Program Files\\NSClient++\\'
+default['nsclient']['template_cookbook'] = 'nsclient'
