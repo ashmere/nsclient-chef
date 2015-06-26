@@ -24,30 +24,30 @@ if node['kernel']['machine'] == "x86_64"
   chocolatey "NSClientPlusPlus.x64"
 else 
   chocolatey "NSClientPlusPlus.x86"
-  end
+end
 
 #installs additional custom scripts from files to script folder in the app path.
 #ensure they are supported by your nsc.ini.erb
 cookbook_file "#{node['nsclient']['nsclientpath']}scripts/check_available_updates.vbs" do
   source "check_available_updates.vbs"
   action :create
-  end
+end
 cookbook_file "#{node['nsclient']['nsclientpath']}scripts/restart_w3svc.cmd" do
   source "restart_w3svc.cmd"
   action :create
-  end
+end
 
 #use a template for the nsc.ini for settings for nsclient
 template "#{node['nsclient']['nsclientpath']}NSC.ini" do
+  cookbook node['nsclient']['template_cookbook']
   source "NSC.ini.erb"
   action :create
   notifies :restart, "service[NSClientpp]", :immediately
-  end
+end
 
 #install the nsclient and restart it this will ensure changes in settings are loaded each run.
 service "NSClientpp" do
-  service_name "NSClientpp"
+  service_name "nscp"
   supports :start => true, :stop => true, :restart => true
   action [:restart, :enable]
-  end
-
+end
